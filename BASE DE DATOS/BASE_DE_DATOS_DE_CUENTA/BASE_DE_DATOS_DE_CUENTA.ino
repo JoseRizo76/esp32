@@ -1,4 +1,4 @@
- //DECLARACION DE LIBRERIA
+//DECLARACION DE LIBRERIA
 #include <SPI.h>
 #include <MFRC522.h>
 #include <LiquidCrystal_I2C.h>
@@ -6,6 +6,7 @@
 #include <EEPROM.h> 
 #include <Preferences.h>
 
+//INSTANCIA PARA GUARDAR LOS DATOS EN LA NVS DE LA ESP32
 Preferences preferences;
 
 
@@ -31,6 +32,7 @@ byte colPins[COLS] = {13, 4, 2};
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 
 //DECLARACION DE VARIABLES DE MANERA GLOBAL
+
   //VARIABLES DE CLIENTE
   unsigned int contador ;
   byte estado = 0 ;
@@ -47,6 +49,7 @@ Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
   unsigned long tiempo = 0;
   int segundos = 0;
 
+  ///VARIABLE QUE PERMITE GUARDAR DATOS EN LA NVS DE LA ESP32
   boolean guardarEnPreferences = false;
 
   // VARIABLES DE TIPO BANDERA
@@ -63,23 +66,26 @@ Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
   char clavePrint[7] = "111111";
   boolean CverificacionPrint = false; 
 
-//ESTRUCTURA
+//ESTRUCTURA QUE ALMACENA LOS DATOS DEL CLIENTE
 struct cliente {
   int id = 0;
   char password [5] = "";
   int dinero = 100;
   char Tarjeta [30] = "";
   char primerDigito ;
-} cliente [10];
+} cliente [10]; //MAXIMO DE 10 CLIENTES POR EL MOMENTO
 
 void setup() {
   //INICIALIZA EL COMUNICADOR SERIAL A 115200 BAUDIOS
   Serial.begin(115200);
-  
+
+  //CARGA LOS DATOS ALMACENADOS DESDE NVS DEL ESP32
   preferences.begin("my-app", false);
   contador = preferences.getUInt("contador", 0);
-
-  // Cerrar las preferencias
+  for (byte i = 0; i < contador; i++) {
+    String key = "cliente" + String(i);
+    preferences.getBytes(key.c_str(), &cliente[i], sizeof(cliente[i]));
+  }
   preferences.end();
 
   //VOIDS
@@ -90,36 +96,39 @@ void setup() {
   pinMode (15, OUTPUT);
 
   //DECLARACION DE PINES DE ENTRADA
+  
 
+  //MENSAJE SI NO HAY NINGUNA CUENTA EN LA MEMORIA
   if (contador == 0){
     cr();
     lcd.print("REQUID ACCOUNT      ");
     delay(500);
   }
 }
-  
+
+
 void loop() {
 
-  
+  //VARIABLES QUE ALMACENAN EL TIEMPO DESDE QUE SE ENCENDIO EL ESP32
   tiempo = millis();
   segundos = (tiempo / 1000 );
   
-  //Si al inicio del programa no hay ninguna cuenta pedira qeu se ingrese una cuenta ademas de la verificacion de la contraseña
+  //SI DETECTA QUE NO HAY NINGUNA CUANTA EN LA ESTRUCUTA CLIENTE PEDIRA QUE SE INGRESE UNA CUENTA OBLIGATORIAMENTE
   if (contador ==0 && opc == 0 && band3 == 'f' || Cverificacion == false && opc == 2 && band3 == 'f'){
     mensaje_verificacion();
   }
 
-  //Verifica la opcion que el cliente desea realizar
+  //VOID DE MENU DE OPCIONES QUE EL CLIENTE PUEDE REALIZAR
   opcion_menu_principal();
   
-  //Verificacion de la clave maestra
+  //VERIFICA SI EL INGRESO ES DEL DUEÑO PARA HACER MODIFICACIONES EN ELLA
   verificacion_clave_maestra ();
 
-  // Registro de cuentas 
+  //DESPUES DE VERIFICAR LA CONTRASEÑA PARA AGREGAR UNA CUENTA PASA A LA CREACION DE LA CUENTA
     if (opc == 2 && contador<=9 && Cverificacion == true|| contador == 0 && Cverificacion == true){
     nuevaCuenta();
     }
-    else if (opc == 5){  //si los usuarios estan completos no dejara que se pueda agregar otro mas 
+    else if (opc == 5){  // SI HAY MAS DE 10 USUARUIOS NO PERMITIRA EL INGRESO DE MAS USUARIOS
       lcd.clear();
       cr();
       Serial.print("USERS COMPLETED");
@@ -128,7 +137,8 @@ void loop() {
       delay(1000);
       opc = 0;
     }
-
+    
+    //SI LA CONTRASEÑA CORRECTA IMPRIME EN EL MONITOR SERIAL TODAS LAS CUENTAS ALMACENADAS
     if (CverificacionPrint == true ){
       for (byte i=0; i<contador; i++){
         Serial.print("Ciente ");
@@ -148,23 +158,22 @@ void loop() {
         
       }
       CverificacionPrint = false; 
-      preferences.begin("my-app", false);
-      preferences.clear();
-      preferences.end();
     }
 
 
-
+  //CUANDO SE HAYA MODIFICADO LA ESTRUCUTA SE ALMACENARA LOS CAMBIOS EN LA MEMORIA NVS DE LA ESP 32 REMPLZANDO ASI LOS CAMBIOS 
   if (guardarEnPreferences) {
-  preferences.begin("my-app", false);
-  preferences.putUInt("contador", contador);
-  preferences.end();
-  guardarEnPreferences = false;
-  }
+    preferences.begin("my-app", false);
+    preferences.putUInt("contador", contador);
+    for (byte i = 0; i < contador; i++) {
+      String key = "cliente" + String(i);
+      preferences.putBytes(key.c_str(), &cliente[i], sizeof(cliente[i]));
+    }
+    preferences.end();
+    guardarEnPreferences = false;
+    
+   }
 }
-
-
-
 
 
 
@@ -181,7 +190,7 @@ void lcdInit() {
   delay (500);
 }
 
-///////// VOID  INICIA LA LA LECTURA DEL RFID //////////
+///////// VOID  INICIA LA LECTURA DEL RFID //////////
 void RFID () {
   SPI.begin();
   mfrc522.PCD_Init();
@@ -220,8 +229,8 @@ void nuevaCuenta (){
         indice++;
         cliente[contador].id = atoi(dato);
         dato[indice] = '\0';
-
     }
+    
     //CUANDO SE INGRESE EL 4 DIGITO SE GURADARA AUNTOMATICAMENTE EN EL ID
     if (indice == 4 && cliente[contador].id >= 1000){
         
@@ -229,6 +238,7 @@ void nuevaCuenta (){
         band = 'p'; 
         lcd.clear();
       }
+      
     // EL ID DEBE DE ESTAR EN EL RANGO DE 1000 A 9999
     else if (indice == 4 && cliente[contador].id < 1000){
       indice = 0;
@@ -284,7 +294,8 @@ void nuevaCuenta (){
         band3 = 'v';
       }
    }
-
+   
+   //VERIFICA QUE SI PRESIONO * PARA LECTURA DEL LA RFID O # PARA CANCELAR LA LECTURA DEL RFID
    if (contador == 0 && band == 't' && band3 == 'v' || opc == 2 && band == 't' && band3 == 'v') {
     char key = keypad.getKey();                                                  
     if (key){
@@ -294,13 +305,12 @@ void nuevaCuenta (){
           default: Serial.println("ERROR"); break;
          }
     }
-
+    //SI PRESIONO  * PEDIRA QUE ESCANEE LA TARJETA
     if (contador == 0 && band == 'q' && band3 == 'v' || opc == 2 && band == 'q' && band3 == 'v') {
       tarjeta();
     }
-
-    
    }
+
    // VERIFICACION SI TIENE NFC
    if (contador == 0 && band == 'n' || opc == 2 && band == 'n'){
       char key = keypad.getKey();
@@ -314,7 +324,7 @@ void nuevaCuenta (){
         band3 = 'v';
       }
    }
-
+   // SI PRESIONA * PEDIRA QUE ESCANEE EL NFC
    if (contador == 0 && band == 'n' && band3 == 'v' || opc == 2 && band == 'n' && band3 == 'v') {
     char key = keypad.getKey();                                                  
     if (key){
@@ -329,7 +339,8 @@ void nuevaCuenta (){
     if (contador == 0 && band == 'e' && band3 == 'v' || opc == 2 && band == 'e' && band3 == 'v') {
       nfcEscaner();
     }
-   
+    
+   //UNA VEZ TERMINADO TODO EL PORCESO DE CREACION DE CUENTA AGREGA EL CLIENTE 
    if (band =='z' && fin == true ){
         Serial.print("ID: ");
         Serial.println(cliente[contador].id);
@@ -352,12 +363,7 @@ void nuevaCuenta (){
         opc = 0; 
         guardarEnPreferences = true;
   }
-  
-
-if(!strcmp(cliente[(contador-1)].password, "2020")){
-  digitalWrite(15,HIGH);
- }
-}
+} //FIN DEL INGRESO DE CUENTA 
 
 //////// VERIFICACION DE LA CLAVE PARA PODER RECARGAR O INGRESAR NUEVA CUENTA
  void verificacion_clave_maestra (){
@@ -380,10 +386,12 @@ if(!strcmp(cliente[(contador-1)].password, "2020")){
     // CUANDO LA CONTRASEÑA TENGA UN RANGO DE 6 DIGITOS LA COMPARA CON LA CONTRASEÑA MAESTRA
     if (indice == 6 && Cverificacion == false ){
         lcd.clear();
+        //COMPARA PARA LA GENERACION DE UNA NUEVA CUENTA
         if (!strcmp(clavei,clave)){
           Cverificacion = true; 
           indice = 0;
         }
+        //COMPARA PARA PODER IMPRIMIR LOS DATOS DE LAS CUENTAS DE LOS CLIENTES 
         else if (!strcmp(clavei,clavePrint)){
           CverificacionPrint = true; 
           indice = 0;
@@ -391,7 +399,6 @@ if(!strcmp(cliente[(contador-1)].password, "2020")){
           band2 = 'v';
           band3= 'f';
         }
-        
         // SI LA CONTRASEÑA NO COINCIDE ENTONCES DICE QUE LA CLAVE ES INCORRECTA Y VUELVE A SU MENU PRINCIPAL
         else{
           lcd.clear();
@@ -413,7 +420,7 @@ if(!strcmp(cliente[(contador-1)].password, "2020")){
     if (opc == 0 && contador > 0 )  {
     char key = keypad.getKey();
       cr();
-      lcd.print("PRESS-- RECG->#");
+      lcd.print("PRESS RECG->#");
       cl();
       lcd.print("AVAN->0 NEW->*");
       estado = 0;
@@ -441,6 +448,17 @@ if(!strcmp(cliente[(contador-1)].password, "2020")){
           opc = 1 ;
           lcd.clear();
           break;
+        //OPCION  TEMPORAL PARA BOORAR LOS DATOS DE LA EPROM
+         case '1':
+         lcd.clear();
+          cr();
+          lcd.print("CLEAR DATOS");
+          delay(500);
+          lcd.clear();       
+          preferences.begin("my-app", false);
+          preferences.clear();
+          preferences.end();
+          break;
         //EN CASO DE QUE PRESIONE UN TECLA QUE NO ESTE EN EL MENU
         default: lcd.clear();
           cr();
@@ -452,7 +470,7 @@ if(!strcmp(cliente[(contador-1)].password, "2020")){
   } 
 }
 
-//Mensaje Verificacion
+//MENSAJE DE VERIFICACION
 void mensaje_verificacion(){
     opc = 2;
     Cverificacion = false;
@@ -463,8 +481,8 @@ void mensaje_verificacion(){
     delay (300);
     band3 = 'v';
 }
-////////////////////////////////////////////
 
+//LECTURA DE TARJETA VOID
 void tarjeta (){
   while (band == 'q'){
     if (band5 == 'f') {
@@ -475,19 +493,19 @@ void tarjeta (){
       lcd.print("WAINTING...");
       band5 = 'g';
     }
-
+    //SI SE PRESENTA UNA TARJETA EN EL LECTOR LA LEE Y ALMACENA LA ID DENTRO DE TARJEA DE CLIENTE
     if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
       String idTarjeta = "";
       lcd.clear();
       for (byte i = 0; i < mfrc522.uid.size; i++) {
         idTarjeta += String(mfrc522.uid.uidByte[i], HEX);
       }
-      idTarjeta.toUpperCase(); // Convierte a mayúsculas (opcional)
-      // Almacena el ID de la tarjeta en la estructura cliente
-      strcpy(cliente[contador].Tarjeta, idTarjeta.c_str());
+      idTarjeta.toUpperCase();
+      strcpy(cliente[contador].Tarjeta, idTarjeta.c_str()); // COPIA A LA ESTREUCTURA DEL CLIENTE 
       mfrc522.PICC_HaltA();
       mfrc522.PCD_StopCrypto1();
-      band = 'n';
+      //TERMINA LA LECTURA DEL RFID
+      band = 'n'; //PASA ALA VERFICACION DEL NFC
       lcd.clear();
       band5 = 'f';
     }
@@ -505,21 +523,18 @@ void nfcEscaner(){
       lcd.print("WAINTING...");
       band5 = 'g';
     }
-
+    //SI SE PRESENTA UN NFC EN EL LECTOR LO LEE Y LO ALMACENA DENTRO DE NFC DEL CLIENTE
     if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
       String idTarjeta = "";
       lcd.clear();
       for (byte i = 0; i < mfrc522.uid.size; i++) {
         idTarjeta += String(mfrc522.uid.uidByte[i], HEX);
       }
-
-      idTarjeta.toUpperCase(); // Convierte a mayúsculas (opcional) 
-
-      // Almacena el NFC IDENTIFICATOR
+      idTarjeta.toUpperCase(); 
       cliente[contador].primerDigito = idTarjeta[0];
-
       mfrc522.PICC_HaltA();
       mfrc522.PCD_StopCrypto1();
+      //DETIENE LA LECTURA DEL NFC
       lcd.clear();
       band5 = 'f';
       band ='z' ;
