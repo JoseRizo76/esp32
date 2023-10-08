@@ -37,22 +37,29 @@ boolean fin = false;
 int user = 0;
 byte i = 0;
 byte numCliente = 0;
+char VT [30] = "";
 
 // VARIABLES DE ALMACENAMIENTO DE TECLA PRESIONADA
 byte indice = 0;
 char dato[10];
 byte indiceD = 0;
 char dineroSave[5];
-byte dineroint = 0;
+int dineroint = 0;
 char idVF[5];
+char passVF [5];
 
 //VARIABLES PAGO
 boolean cuentaExistente = false;
+
+//VARIABLES DE RETIRO DE PRODUCTO Y VERIFICACION DE LA CUENTA
+boolean retiroProducto = false;
 
 // VARIABLES DE OPCIONES DE MENU
 byte opc = 0; // MENU PRINCIPAL
 byte subopc = 0;
 boolean estado1 = false;
+boolean estadoVC = false;
+ 
 
 // VARIABLES DE TIEMPO
 unsigned long tiempo = 0;
@@ -73,6 +80,8 @@ char band6 = 'f';
 char band7 = 'f';
 char band8 = 'f';
 char bandVC = 'g';
+char band9 = 'g';
+char bandx = 'g';
 
 // VARIABLES PARA LA VERIFICACION DEL DUEÑO
 char clave[7] = "000000";
@@ -232,6 +241,7 @@ void loop()
       lcd.clear();
       cr();
       lcd.print("ESPERE...");
+      delay(500);
       band7 = 'v';
     }
     //BUCLE PARA COMPARAR CON TODOS LOS ID DE LOS CLIENTES 
@@ -239,7 +249,12 @@ void loop()
       if (user == cliente[i].id){
         numCliente = i;
         bandVC = 'v';
-        estado1 = true;
+        if (opc == 1){
+          estadoVC = true;
+        }
+        else if (opc == 2 ){
+          estado1 = true;
+        }
         break;
       }
       else{
@@ -248,10 +263,12 @@ void loop()
       }
     }
 
+
+
     //VERIFICA SI LA CUENTA SE ENCONTRO Y REGISTRA EN DONDE SE ENCONTRO
     if (bandVC == 'v' && estado1 == true ){
      // lcd.clear();
-      Serial.print("LA CUENTA SE ENCONTRO Y ES LA CUEBTA NUMERO :");
+      Serial.print("LA CUENTA SE ENCONTRO Y ES LA CUENTA NUMERO :");
       Serial.println(numCliente+1);
       user =0;
       cuentaExistente = true;
@@ -276,6 +293,8 @@ void loop()
       cuentaExistente = false;
     }
   }
+
+//SI LA CUENTA EXISTE ENTRA Y PREGUNTA CUANTO DINERO QUIERE DEPOSITAR
   if (cuentaExistente == true && estado1 == true ){
     //Serial.println(numCliente);
     char kye2 = keypad.getKey();
@@ -291,13 +310,118 @@ void loop()
         cl();
         lcd.print("DINERO: ");
         lcd.print(cliente[numCliente].dinero);
-        delay(500);
+        delay(1500);
         Serial.print("NUEVO SALDO : ");
         Serial.println(cliente[numCliente].dinero);
         band_default();
       }
     }
   }
+
+
+//RETIRO DE PRODUCTO DEPENDIENDO DE LA FORMA DE INGRESO DE ID Y CONTRASEÑA
+  if (opc == 1 && estadoVC == false && retiroProducto == false){
+    pedirID();
+    band3 = 'f';
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()){
+      String idTarjeta = "";
+      lcd.clear();
+      cr();
+      lcd.print("PROCESANDO RFID..");
+      for (byte i = 0; i < mfrc522.uid.size; i++){
+        idTarjeta += String(mfrc522.uid.uidByte[i], HEX);
+      }
+      idTarjeta.toUpperCase();
+      strcpy(VT, idTarjeta.c_str());
+      mfrc522.PICC_HaltA();
+      mfrc522.PCD_StopCrypto1();
+      bandx = 'v';
+      for(int i=0; i<contador; i++){
+        if (!strcmp(VT, cliente[i].Tarjeta)){
+          numCliente = i;
+          band9 = 'v';
+          bandx = 'f';
+          break;
+        }
+        else{
+          band9 = 'f';
+          bandx = 'g';
+         }
+    }
+      }
+      band5 = 'f';
+    }
+
+      
+    if (band9 == 'f' && bandx == 'g' && opc == 1 && retiroProducto == false ){
+      Serial.println("no encontrado");
+      delay(500);
+      band9 = 'g';
+      band_default();
+    }
+    else if (band9 == 'v' && bandx == 'f' && opc == 1 && retiroProducto == false){
+      Serial.print("encontrado, Cliente # ");
+      Serial.println(numCliente +1);
+      delay(500);
+      retiroProducto = true;
+    }
+
+  if (opc == 1 && estadoVC == true && retiroProducto == false){
+    
+    if(band3 == 'f' ){
+      Serial.print("si entro");
+      Serial.print(numCliente +1 );
+      lcd.clear();
+      cr();
+      lcd.print("DIGITE PASSWORD");
+      cl();
+      lcd.print("-> ");
+      band3 = 'v';
+      indice = 0 ;
+    }
+    char key = keypad.getKey();
+    if (key){
+      passVF[indice] = key;
+      lcd.print(key);
+      indice++;
+    }
+    if (indice == 4){
+      if (!strcmp(passVF,cliente[numCliente].password)){
+        lcd.clear();
+        cr();
+        lcd.print("EXITO");
+        delay(500);
+        band3 = 'f';
+        retiroProducto = true;
+        indice = 0;
+      }
+      else{
+        lcd.clear();
+        cr();
+        lcd.print("ERROR");
+        delay(500);
+        band_default(); //EN CASO DE QUE LA CONTRASEÑA NO SEA CORRECTA VOLVERA AL MENU PRINCIPAL
+      }
+    }
+
+  }
+
+  if (opc == 1 && retiroProducto == true ){
+    if (band3 == 'f'){
+    lcd.clear();
+    cr();
+    lcd.print("CLIENTE -> ");
+    lcd.print(numCliente + 1);
+    band3 = 'v';
+    }
+
+    digitalWrite (15, HIGH);
+    delay(1000);
+    digitalWrite (15, LOW);
+    delay (500);
+  }
+
+
 }
 
 
@@ -574,7 +698,7 @@ void opcion_menu_principal(){
     // VERIFICACION DE LA ACCION QUE QUIERE HACER EL CLIENTE
     if (key){
       switch (key){
-      // EN CASO DE QUE QUIERA AGREGAR UNA NUEVA CUENTA
+      // OPCIONES QUE REQUIEREN QUE INGRESE CONTRASEÑA PARA INGRESAR UNA CUENTA
       case '*': opc = 2; Cverificacion = false; band3 = 'f'; band6 = 'f'; lcd.clear(); break;
       // EN CASO DE QUE QUIERA PROCEDER A RETIRAR UN  PRODUCTO
       case '#': opc = 1; subopc = 1; lcd.clear(); band6 = 'f'; break;
@@ -625,6 +749,10 @@ void tarjeta(){
       // TERMINA LA LECTURA DEL RFID
       band = 'n'; // PASA ALA VERFICACION DEL NFC
       lcd.clear();
+      cr();
+      lcd.print("TARJETA SAVE");
+      delay(500);
+      lcd.clear();
       band5 = 'f';
     }
   }
@@ -656,6 +784,9 @@ void nfcEscaner(){
       mfrc522.PICC_HaltA();
       mfrc522.PCD_StopCrypto1();
       // DETIENE LA LECTURA DEL NFC
+      lcd.clear();
+      lcd.print("NFC SAVE");
+      delay(500);
       lcd.clear();
       band5 = 'f';
       band = 'z';
@@ -712,13 +843,16 @@ void pedirID (){
       delay(500);
       band7 = 'f';
       lcd.clear();
-      subopc = 2;
+      subopc = 2; 
     }
 }
 
 //MANTIENE POR DEFECTO TODAS LAS VARIABLES DE TIPO BAND Y OTRAS PARA EL INICIO AL MENU PRINCIPAL
 void band_default(){
+  band9 = 'g'; bandx = 'g'; Cverificacion = false;
   opc = 0; user =0; bandVC = 'g'; band2 = 'v'; band3 = 'f'; band4 = 'f'; band5 = 'f'; band6 = 'f'; band7 = 'f'; band8 = 'f'; bandVC = 'g';
   indice = 0; band = 'f'; lcd.clear(); band2 = 'v'; fin = false; band3 = 'f'; opc = 0; guardarEnPreferences = true; subopc = 0; band7 = 'f';
-  dineroint = 0; cuentaExistente = false; estado1 = false; indiceD =0;
+  dineroint = 0; cuentaExistente = false; estado1 = false; indiceD = 0; estado1 = false;  estadoVC = false;
+  cuentaExistente = false; retiroProducto = false;  
+ 
 }
