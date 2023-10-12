@@ -30,6 +30,17 @@ Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
 // DECLARACION DE VARIABLES DE MANERA GLOBAL
 
+//VARIABLES DE LOS DIFERENTES TIPOS DE PRODUCTOS
+byte Producto1 = 2;
+byte Producto2 = 2;
+byte Producto3 = 2;
+byte Producto4 = 2;
+byte SelecProducto = 0;
+byte precio = 0; 
+int montoFinal = 0;
+byte cantidadProducto = 0;
+char cantchar [4];
+
 // VARIABLES DE CLIENTE
 unsigned int contador;
 byte estado = 0;
@@ -38,6 +49,7 @@ int user = 0;
 byte i = 0;
 byte numCliente = 0;
 char VT [30] = "";
+boolean VDinero = false;
 
 // VARIABLES DE ALMACENAMIENTO DE TECLA PRESIONADA
 byte indice = 0;
@@ -108,6 +120,11 @@ void setup()
   // CARGA LOS DATOS ALMACENADOS DESDE NVS DEL ESP32
   preferences.begin("my-app", false);
   contador = preferences.getUInt("contador", 0);
+  Producto1 = preferences.getUInt("Producto1", 0);
+  Producto2 = preferences.getUInt("Producto2", 0);
+  Producto3 = preferences.getUInt("Producto3", 0);
+  Producto4 = preferences.getUInt("Producto4", 0);
+
   for (byte i = 0; i < contador; i++)
   {
     String key = "cliente" + String(i);
@@ -196,6 +213,14 @@ void loop()
   if (guardarEnPreferences){
     preferences.begin("my-app", false);
     preferences.putUInt("contador", contador);
+
+    //GUARDA LA CANTIDAD DE PRODUCTO QUE HAY EN LA MAQUINA
+    preferences.putUInt("Producto1", Producto1);
+    preferences.putUInt("Producto2", Producto2);
+    preferences.putUInt("Producto3", Producto3);
+    preferences.putUInt("Producto4", Producto4);
+
+
     //BUCLE PARA ALMACENAR TODOS LOS DATOS DE LA ESTRUCTURA DENTRO DE LA NVS 
     for (byte i = 0; i < contador; i++){
       String key = "cliente" + String(i);
@@ -358,6 +383,10 @@ void loop()
       delay(500);
       band9 = 'g';
       band_default();
+      lcd.clear();
+      lcd.print("RFID NO EXISTE");
+      delay(500);
+      lcd.clear();
     }
     else if (band9 == 'v' && bandx == 'f' && opc == 1 && retiroProducto == false){
       Serial.print("encontrado, Cliente # ");
@@ -369,8 +398,6 @@ void loop()
   if (opc == 1 && estadoVC == true && retiroProducto == false){
     
     if(band3 == 'f' ){
-      Serial.print("si entro");
-      Serial.print(numCliente +1 );
       lcd.clear();
       cr();
       lcd.print("DIGITE PASSWORD");
@@ -407,21 +434,64 @@ void loop()
   }
 
   if (opc == 1 && retiroProducto == true ){
-    if (band3 == 'f'){
-    lcd.clear();
-    cr();
-    lcd.print("CLIENTE -> ");
-    lcd.print(numCliente + 1);
-    band3 = 'v';
+    if (SelecProducto == 0){
+      if (band3 == 'f'){
+        lcd.clear();
+        cr();
+        lcd.print("CLIENTE -> ");
+        lcd.print(numCliente + 1);
+        band3 = 'v';
+      }
+      char key = keypad.getKey();
+      cl();
+      lcd.print("SELECT PRODUCT");
+      if (key){
+        switch (key){
+          case '1': SelecProducto = 1; lcd.clear(); cr(); lcd.print("ZIBAS $20");cl(); lcd.print("CANT -> "); precio = 20; break;
+          case '2': SelecProducto = 1; lcd.clear(); cr(); lcd.print("TAKIS $50");cl(); lcd.print("CANT -> "); precio = 50; break;
+          case '3': SelecProducto = 1; lcd.clear(); cr(); lcd.print("JUGO $25");cl(); lcd.print("CANT -> ");  precio = 25; break;
+          case '4': SelecProducto = 1; lcd.clear(); cr(); lcd.print("CHOCOLATE $10");cl(); lcd.print("CANT -> "); precio = 10; break;
+          case '*': band_default(); break;
+          default: lcd.clear(); cr(); lcd.print("ERROR DE OPCION"); delay(1000); lcd.clear(); cr(); lcd.print("CLIENTE -> "); lcd.print(numCliente + 1); break;
+        }
+      }
     }
+    if (SelecProducto == 1){
 
-    digitalWrite (15, HIGH);
-    delay(1000);
-    digitalWrite (15, LOW);
-    delay (500);
+      if (cantidadProducto == 0){
+        char key = keypad.getKey();
+        if (key){
+          cantchar[indiceD] = key;
+          lcd.print(key);
+          indiceD ++;
+          if (key =='#'){
+            cantidadProducto = atoi(cantchar);
+            montoFinal = cantidadProducto * precio;
+            cl();
+            lcd.print("                ");
+            cl();
+            lcd.print("TOTAL -> ");
+            lcd.print(montoFinal);
+            delay(1000);
+            lcd.clear();
+            if (cliente[numCliente].dinero >= montoFinal){
+              cr();
+              lcd.print("PAGO EXITOSO");
+              cliente[numCliente].dinero -= montoFinal ;
+              delay(1000);
+              band_default();
+            }
+            else{
+              cr();
+              lcd.print("SALDO INSUFICIENTE");
+              delay(1000);
+              band_default();
+            }
+          }
+        } 
+      }
+    }
   }
-
-
 }
 
 
@@ -825,17 +895,14 @@ void pedirID (){
     if (indice == 4){
     user = atoi(idVF);
     }
-    //dato[indice] = '\0';
   }
-
     if (indice == 4 && user >= 1000){
       indice = 0;
       lcd.clear();
       band7 = 'f';
       subopc = 5;
   }
-
-    // EL ID DEBE DE ESTAR EN EL RANGO DE 1000 A 9999
+    // EL ID DEBE DE ESTAR EN EL RaANGO DE 1000 A 9999
     else if (indice == 4 && user < 1000){
       indice = 0;
       cr();
@@ -852,7 +919,6 @@ void band_default(){
   band9 = 'g'; bandx = 'g'; Cverificacion = false;
   opc = 0; user =0; bandVC = 'g'; band2 = 'v'; band3 = 'f'; band4 = 'f'; band5 = 'f'; band6 = 'f'; band7 = 'f'; band8 = 'f'; bandVC = 'g';
   indice = 0; band = 'f'; lcd.clear(); band2 = 'v'; fin = false; band3 = 'f'; opc = 0; guardarEnPreferences = true; subopc = 0; band7 = 'f';
-  dineroint = 0; cuentaExistente = false; estado1 = false; indiceD = 0; estado1 = false;  estadoVC = false;
-  cuentaExistente = false; retiroProducto = false;  
- 
+  dineroint = 0; estado1 = false; indiceD = 0; estado1 = false;  estadoVC = false; cuentaExistente = false; retiroProducto = false;
+  SelecProducto = 0; montoFinal = 0; precio = 0; cantidadProducto = 0;  
 }
