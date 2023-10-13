@@ -25,16 +25,25 @@ char keys[ROWS][COLS] = {
     {'7', '8', '9'},
     {'*', '0', '#'}};
 byte rowPins[ROWS] = {12, 26, 14, 17};
-byte colPins[COLS] = {13, 4, 2};
+byte colPins[COLS] = {13, 2, 4};
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
 // DECLARACION DE VARIABLES DE MANERA GLOBAL
+//VARIABLES DE LA MAQUINA EXPENDEDORA
+const byte Motor2 = 33;
+const byte Motor3 = 27;
+const byte Motor4 = 32;
+const byte LedC = 15;
+const byte LedE = 25;
+
+//ID DE LA TARJETA DE LA CLAVE MAESTRA
+char MASTERCARD [15] = "F150431B";
 
 //VARIABLES DE LOS DIFERENTES TIPOS DE PRODUCTOS
-byte Producto1 = 2;
-byte Producto2 = 2;
-byte Producto3 = 2;
-byte Producto4 = 2;
+int Producto1 = 2;
+int Producto2 = 2;
+int Producto3 = 2;
+int Producto4 = 2;
 byte SelecProducto = 0;
 byte precio = 0; 
 int montoFinal = 0;
@@ -65,6 +74,7 @@ boolean cuentaExistente = false;
 
 //VARIABLES DE RETIRO DE PRODUCTO Y VERIFICACION DE LA CUENTA
 boolean retiroProducto = false;
+byte CTP = 0;
 
 // VARIABLES DE OPCIONES DE MENU
 byte opc = 0; // MENU PRINCIPAL
@@ -120,10 +130,10 @@ void setup()
   // CARGA LOS DATOS ALMACENADOS DESDE NVS DEL ESP32
   preferences.begin("my-app", false);
   contador = preferences.getUInt("contador", 0);
-  Producto1 = preferences.getUInt("Producto1", 0);
-  Producto2 = preferences.getUInt("Producto2", 0);
-  Producto3 = preferences.getUInt("Producto3", 0);
-  Producto4 = preferences.getUInt("Producto4", 0);
+  Producto1 = preferences.getUInt("Producto1", 2);
+  Producto2 = preferences.getUInt("Producto2", 2);
+  Producto3 = preferences.getUInt("Producto3", 2);
+  Producto4 = preferences.getUInt("Producto4", 2);
 
   for (byte i = 0; i < contador; i++)
   {
@@ -137,7 +147,11 @@ void setup()
   lcdInit();
 
   // DECLARACION DE PINES DE SALIDA
-  pinMode(15, OUTPUT);
+  pinMode(LedC, OUTPUT);
+  pinMode(LedE, OUTPUT);
+  pinMode(Motor2, OUTPUT);
+  pinMode(Motor3, OUTPUT);
+  pinMode(Motor4, OUTPUT);
 
   // DECLARACION DE PINES DE ENTRADA
 
@@ -250,6 +264,15 @@ void loop()
         if (contador<=9){subopc = 1; lcd.clear(); band7 = 'f';}
         else{opc = 5; Cverificacion = false; indice = 0; band2 = 'v'; band3 = 'f'; band6 = 'f';band7 ='f';} 
         break;
+      case '0': lcd.clear();
+        CverificacionPrint = true;
+        cr();
+        lcd.print("CUENTAS PRINT");
+        digitalWrite(LedC , HIGH);
+        delay(500);
+        digitalWrite(LedC , LOW);
+        band_default();
+        ;break;
       default: lcd.print("ERROR DE OPCION"); delay(500); lcd.clear(); band7 = 'f';break;
       }
     }
@@ -302,7 +325,9 @@ void loop()
       lcd.print("DINERO A GUARDAR");
       cl();
       lcd.print("$ ");
-      delay(1000);
+      digitalWrite(LedC , HIGH);
+      delay(500);
+      digitalWrite(LedC , LOW);
       estado1 = true;
     }
 
@@ -311,9 +336,10 @@ void loop()
       lcd.clear();
       cr();
       lcd.print("ACOUNT INVALIDE");
-      delay(500);
       Serial.println("LA CUENTA NO SE ENCONTRO EN LOS REGISTRO");
+      digitalWrite(LedE , HIGH);
       delay(500);
+      digitalWrite(LedE , LOW);
       band_default();
       cuentaExistente = false;
     }
@@ -328,10 +354,14 @@ void loop()
       lcd.print(kye2);
       indiceD ++;
       if (kye2 =='#'){
+        lcd.clear();
         dineroint = atoi(dineroSave);
         cliente[numCliente].dinero = (cliente[numCliente].dinero + dineroint);
         cr();
         lcd.print("DEPOSITO EXITOSO");
+        digitalWrite(LedC , HIGH);
+        delay(500);
+        digitalWrite(LedC , LOW);
         cl();
         lcd.print("DINERO: ");
         lcd.print(cliente[numCliente].dinero);
@@ -385,11 +415,16 @@ void loop()
       band_default();
       lcd.clear();
       lcd.print("RFID NO EXISTE");
+      digitalWrite(LedE , HIGH);
       delay(500);
+      digitalWrite(LedE , LOW);
       lcd.clear();
     }
     else if (band9 == 'v' && bandx == 'f' && opc == 1 && retiroProducto == false){
       Serial.print("encontrado, Cliente # ");
+      digitalWrite(LedC , HIGH);
+      delay(500);
+      digitalWrite(LedC , LOW);
       Serial.println(numCliente +1);
       delay(500);
       retiroProducto = true;
@@ -417,7 +452,9 @@ void loop()
         lcd.clear();
         cr();
         lcd.print("EXITO");
+        digitalWrite(LedC , HIGH);
         delay(500);
+        digitalWrite(LedC , LOW);
         band3 = 'f';
         retiroProducto = true;
         indice = 0;
@@ -426,7 +463,9 @@ void loop()
         lcd.clear();
         cr();
         lcd.print("ERROR");
+        digitalWrite(LedE , HIGH);
         delay(500);
+        digitalWrite(LedE , LOW);
         band_default(); //EN CASO DE QUE LA CONTRASEÑA NO SEA CORRECTA VOLVERA AL MENU PRINCIPAL
       }
     }
@@ -447,18 +486,28 @@ void loop()
       lcd.print("SELECT PRODUCT");
       if (key){
         switch (key){
-          case '1': SelecProducto = 1; lcd.clear(); cr(); lcd.print("ZIBAS $20");cl(); lcd.print("CANT -> "); precio = 20; break;
-          case '2': SelecProducto = 1; lcd.clear(); cr(); lcd.print("TAKIS $50");cl(); lcd.print("CANT -> "); precio = 50; break;
-          case '3': SelecProducto = 1; lcd.clear(); cr(); lcd.print("JUGO $25");cl(); lcd.print("CANT -> ");  precio = 25; break;
-          case '4': SelecProducto = 1; lcd.clear(); cr(); lcd.print("CHOCOLATE $10");cl(); lcd.print("CANT -> "); precio = 10; break;
+          case '1': SelecProducto = 1; lcd.clear(); cr(); lcd.print("MAX-> "); lcd.print(Producto1); delay(500); lcd.clear(); cr(); lcd.print("ZIBAS $20");cl(); lcd.print("CANT -> "); precio = 20; break;
+          case '2': SelecProducto = 2; lcd.clear(); cr(); lcd.print("MAX-> "); lcd.print(Producto2); delay(500); lcd.clear(); cr(); lcd.print("TAKIS $50");cl(); lcd.print("CANT -> "); precio = 50; break;
+          case '3': SelecProducto = 3; lcd.clear(); cr(); lcd.print("MAX-> "); lcd.print(Producto3); delay(500); lcd.clear(); cr(); lcd.print("JUGO $25");cl(); lcd.print("CANT -> ");  precio = 25; break;
+          case '4': SelecProducto = 4; lcd.clear(); cr(); lcd.print("MAX-> "); lcd.print(Producto4); delay(500); lcd.clear(); cr(); lcd.print("CHOCOLATE $10");cl(); lcd.print("CANT -> "); precio = 10; break;
           case '*': band_default(); break;
-          default: lcd.clear(); cr(); lcd.print("ERROR DE OPCION"); delay(1000); lcd.clear(); cr(); lcd.print("CLIENTE -> "); lcd.print(numCliente + 1); break;
+          default: lcd.clear(); cr(); lcd.print("ERROR DE OPCION"); delay(1000); lcd.clear(); cr(); lcd.print("CLIENTE -> "); lcd.print(numCliente + 1);  break;
         }
+        
       }
     }
-    if (SelecProducto == 1){
-
-      if (cantidadProducto == 0){
+    if (SelecProducto != 0){
+      if (band3 == 'v'){
+      switch (SelecProducto){
+          case 1: CTP = Producto1; break;
+          case 2: CTP = Producto2; break;
+          case 3: CTP = Producto3; break;
+          case 4: CTP = Producto4; break;
+        }
+        band3= 'h';
+      }
+      
+      if (cantidadProducto == 0 && CTP > 0 ){
         char key = keypad.getKey();
         if (key){
           cantchar[indiceD] = key;
@@ -469,7 +518,7 @@ void loop()
             montoFinal = cantidadProducto * precio;
             cl();
             lcd.print("                ");
-            cl();
+            cl(); 
             lcd.print("TOTAL -> ");
             lcd.print(montoFinal);
             delay(1000);
@@ -477,18 +526,38 @@ void loop()
             if (cliente[numCliente].dinero >= montoFinal){
               cr();
               lcd.print("PAGO EXITOSO");
+              digitalWrite(LedC , HIGH);
+              delay(500);
+              digitalWrite(LedC , LOW);
               cliente[numCliente].dinero -= montoFinal ;
+
+              switch(SelecProducto){
+                case 1: Producto1 -= cantidadProducto  ;break;
+                case 2: Producto2 -= cantidadProducto  ;break;
+                case 3: Producto3 -= cantidadProducto  ;break;
+                case 4: Producto4 -= cantidadProducto  ;break;
+              }
               delay(1000);
               band_default();
             }
             else{
               cr();
               lcd.print("SALDO INSUFICIENTE");
-              delay(1000);
+              digitalWrite(LedE , HIGH);
+              delay(500);
+              digitalWrite(LedE , LOW);
               band_default();
             }
           }
         } 
+      }
+      else if (cantidadProducto == 0 && CTP <= 0 ){
+        lcd.clear();
+        cr();
+        lcd.print("SIN PRODUCTOS");
+        delay(500);
+        band_default();
+
       }
     }
   }
@@ -565,7 +634,9 @@ void nuevaCuenta(){
         indice = 0;
         cr();
         lcd.print("ERROR ID < 1000");
+        digitalWrite(LedE , HIGH);
         delay(500);
+        digitalWrite(LedE , LOW);
         band = 'f';
         lcd.clear();
       }
@@ -687,6 +758,8 @@ void nuevaCuenta(){
 
 //////// VERIFICACION DE LA CLAVE PARA PODER RECARGAR O INGRESAR NUEVA CUENTA
 void verificacion_clave_maestra(){
+  //TARJETE MAESTRA PARA QUE SEA MENOS TIEMPO
+
   if (Cverificacion == false && opc == 2 && band3 == 'v'){
     char key = keypad.getKey();
     if (band2 == 'v'){
@@ -697,6 +770,43 @@ void verificacion_clave_maestra(){
       band2 = 'f';
       indice = 0;
     }
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()){
+      String idTarjeta = "";
+      lcd.clear();
+      cr();
+      lcd.print("VERIF MS-CARD");
+      cl();
+      lcd.print("WAITINNG..");  
+      for (byte i = 0; i < mfrc522.uid.size; i++){
+        idTarjeta += String(mfrc522.uid.uidByte[i], HEX);
+      }
+      idTarjeta.toUpperCase();
+      strcpy(VT, idTarjeta.c_str());
+      mfrc522.PICC_HaltA();
+      mfrc522.PCD_StopCrypto1();
+      //bandx = 'v';
+        if (!strcmp(VT, MASTERCARD)){
+          digitalWrite(LedC , HIGH);
+          delay(500);
+          digitalWrite(LedC , LOW);
+          Cverificacion = true;
+          indice = 0;
+          lcd.clear();
+        }
+        else{
+          lcd.clear();
+          cr();
+          lcd.print("ERROR MS-CARD");
+          digitalWrite(LedE , HIGH);
+          delay(500);
+          digitalWrite(LedE , LOW);
+          opc = 0;
+          lcd.clear();
+          indice = 0;
+          band2 = 'v';
+          band3 = 'f';
+         }
+      }
 
     //  MUESTRA EN LA PANTALLA LA CONTRASEÑA PERO DE MANERA DE XXXXXXX
     if (key){
@@ -717,6 +827,11 @@ void verificacion_clave_maestra(){
       // COMPARA PARA PODER IMPRIMIR LOS DATOS DE LAS CUENTAS DE LOS CLIENTES
       else if (!strcmp(clavei, clavePrint)){
         CverificacionPrint = true;
+        cr();
+        lcd.print("CUENTAS PRINT");
+        digitalWrite(LedC , HIGH);
+        delay(500);
+        digitalWrite(LedC , LOW);
         indice = 0;
         opc = 0;
         band2 = 'v';
@@ -728,7 +843,9 @@ void verificacion_clave_maestra(){
         lcd.clear();
         cr();
         lcd.print("CLAVE INCORRECTA");
+        digitalWrite(LedE , HIGH);
         delay(500);
+        digitalWrite(LedE , LOW);
         opc = 0;
         lcd.clear();
         indice = 0;
@@ -772,6 +889,8 @@ void opcion_menu_principal(){
       case '*': opc = 2; Cverificacion = false; band3 = 'f'; band6 = 'f'; lcd.clear(); break;
       // EN CASO DE QUE QUIERA PROCEDER A RETIRAR UN  PRODUCTO
       case '#': opc = 1; subopc = 1; lcd.clear(); band6 = 'f'; break;
+
+      case '7': Producto1 = 2; Producto2 = 2; Producto3 = 2; Producto4 = 2; lcd.clear(); cr(); lcd.print("PRODUCTOS LLENO"); delay(500); lcd.clear(); band_default(); break;
         // OPCION  TEMPORAL PARA BOORAR LOS DATOS DE LA EPROM
       case '1': lcd.clear(); cr(); lcd.print("CLEAR DATOS"); delay(500); lcd.clear(); preferences.begin("my-app", false); preferences.clear(); preferences.end(); break;
       // EN CASO DE QUE PRESIONE UN TECLA QUE NO ESTE EN EL MENU
@@ -821,7 +940,9 @@ void tarjeta(){
       lcd.clear();
       cr();
       lcd.print("TARJETA SAVE");
+      digitalWrite(LedC , HIGH);
       delay(500);
+      digitalWrite(LedC , LOW);
       lcd.clear();
       band5 = 'f';
     }
@@ -856,7 +977,9 @@ void nfcEscaner(){
       // DETIENE LA LECTURA DEL NFC
       lcd.clear();
       lcd.print("NFC SAVE");
+      digitalWrite(LedC , HIGH);
       delay(500);
+      digitalWrite(LedC , LOW);
       lcd.clear();
       band5 = 'f';
       band = 'z';
@@ -907,7 +1030,9 @@ void pedirID (){
       indice = 0;
       cr();
       lcd.print("ERROR ID < 1000");
+      digitalWrite(LedE , HIGH);
       delay(500);
+      digitalWrite(LedE , LOW);
       band7 = 'f';
       lcd.clear();
       subopc = 2; 
