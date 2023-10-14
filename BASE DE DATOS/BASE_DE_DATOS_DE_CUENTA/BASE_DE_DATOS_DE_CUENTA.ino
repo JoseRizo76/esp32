@@ -4,6 +4,21 @@
 #include <LiquidCrystal_I2C.h>
 #include <Keypad.h>
 #include <Preferences.h>
+#include <WiFi.h>
+#include <WebServer.h>
+
+//CONFIGURAION DE LA PAGINA WEB
+const char *ssid = "POCO-F3";
+const char *password = "Jose Rizo";
+
+WebServer server(80);
+
+const int accountId1 = 12345;  // ID de cuenta existente
+const int accountId2 = 67890;  // ID de cuenta existente
+
+float accountBalance1 = 1000.0;  // Saldo de cuenta 1
+float accountBalance2 = 500.0;   // Saldo de cuenta 2
+
 
 // INSTANCIA PARA GUARDAR LOS DATOS EN LA NVS DE LA ESP32
 Preferences preferences;
@@ -122,6 +137,37 @@ struct cliente
   char primerDigito;
 } cliente[10]; // MAXIMO DE 10 CLIENTES POR EL MOMENTO
 
+void handleRoot() {
+  String html = "<html><body><h1>Buscar Cuenta</h1>";
+  html += "<form action='/search' method='get'>";
+  html += "ID de Cuenta: <input type='text' name='accountId'><br>";
+  html += "<input type='submit' value='Buscar'>";
+  html += "</form></body></html>";
+  server.send(200, "text/html", html);
+}
+
+void handleSearch() {
+  String accountIdStr = server.arg("accountId");
+  int accountId = accountIdStr.toInt();
+
+  String response;
+  for (int i=0; i<contador; i++){
+    if (accountId == cliente[i].id) {
+      response = "Número de Cuenta: " + String(cliente[i].id) + "<br>Dinero: " + String(cliente[i].dinero);
+      break;
+    } else {
+      response = "La cuenta no existe.";
+    }
+  }
+
+  server.send(200, "text/html", response);
+}
+
+
+
+
+
+
 void setup()
 {
   // INICIALIZA EL COMUNICADOR SERIAL A 115200 BAUDIOS
@@ -162,10 +208,27 @@ void setup()
     lcd.print("REQUID ACCOUNT      ");
     delay(500);
   }
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Conectando a la red WiFi...");
+  }
+  
+  Serial.println("Conexión WiFi exitosa");
+  Serial.print("Dirección IP: ");
+  Serial.println(WiFi.localIP());
+
+  server.on("/", HTTP_GET, handleRoot);
+  server.on("/search", HTTP_GET, handleSearch);
+
+  server.begin();
+  Serial.println("Servidor iniciado");
 }
 
 void loop()
 {
+  server.handleClient();
 
   // VARIABLES QUE ALMACENAN EL TIEMPO DESDE QUE SE ENCENDIO EL ESP32
   tiempo = millis();
@@ -272,6 +335,7 @@ void loop()
         delay(500);
         digitalWrite(LedC , LOW);
         band_default();
+        lcd.clear();
         ;break;
       default: lcd.print("ERROR DE OPCION"); delay(500); lcd.clear(); band7 = 'f';break;
       }
@@ -515,31 +579,32 @@ void loop()
           indiceD ++;
           if (key =='#'){
             cantidadProducto = atoi(cantchar);
-            montoFinal = cantidadProducto * precio;
-            cl();
-            lcd.print("                ");
-            cl(); 
-            lcd.print("TOTAL -> ");
-            lcd.print(montoFinal);
-            delay(1000);
-            lcd.clear();
-            if (cliente[numCliente].dinero >= montoFinal){
-              cr();
-              lcd.print("PAGO EXITOSO");
-              digitalWrite(LedC , HIGH);
+            if(cantidadProducto <= CTP){
+              montoFinal = cantidadProducto * precio;
+              cl();
+              lcd.print("                ");
+              cl(); 
+              lcd.print("TOTAL -> ");
+              lcd.print(montoFinal);
               delay(500);
-              digitalWrite(LedC , LOW);
-              cliente[numCliente].dinero -= montoFinal ;
+              lcd.clear();
+              if (cliente[numCliente].dinero >= montoFinal){
+                cr();
+                lcd.print("PAGO EXITOSO");
+                digitalWrite(LedC , HIGH);
+                delay(500);
+                digitalWrite(LedC , LOW);
+                cliente[numCliente].dinero -= montoFinal ;
 
-              switch(SelecProducto){
-                case 1: Producto1 -= cantidadProducto  ;break;
-                case 2: Producto2 -= cantidadProducto  ;break;
-                case 3: Producto3 -= cantidadProducto  ;break;
-                case 4: Producto4 -= cantidadProducto  ;break;
+                switch(SelecProducto){
+                  case 1: Producto1 -= cantidadProducto  ;break;
+                  case 2: Producto2 -= cantidadProducto  ;break;
+                  case 3: Producto3 -= cantidadProducto  ;break;
+                  case 4: Producto4 -= cantidadProducto  ;break;
+                }
+                delay(1000);
+                band_default();
               }
-              delay(1000);
-              band_default();
-            }
             else{
               cr();
               lcd.print("SALDO INSUFICIENTE");
@@ -548,6 +613,17 @@ void loop()
               digitalWrite(LedE , LOW);
               band_default();
             }
+          }
+          else if (cantidadProducto > CTP){
+            lcd.clear();
+            cr();
+            lcd.print("NO HAY PRODUCTO");
+            cl();
+            lcd.print("SUFICIENTE");
+            delay(500);
+            band_default();
+            lcd.clear();
+          }
           }
         } 
       }
