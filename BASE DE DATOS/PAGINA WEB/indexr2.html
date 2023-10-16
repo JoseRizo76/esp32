@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <script src='https://kit.fontawesome.com/892f23a568.js' crossorigin='anonymous'></script>
+    <style>
+        .fa-triangle-exclamation {
+            color: #ffff00;
+            font-size: 200px;
+        }
+
+        .fa-rotate-right {
+            color: white;
+            font-size: 50px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: black no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: rgba(13, 13, 13, 0.8);
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 15px 10px 10px rgba(0, 17, 2, 0.5);
+            width: 500px;
+            text-align: center;
+            border-width: 5px;
+            border-color: red;
+            border-style: solid;
+        }
+
+        .titulo {
+            text-align: center;
+            letter-spacing: 1px;
+            color: white;
+            margin: 10px 25px;
+            box-shadow: 5px 5px 10px 5px #e60707;
+        }
+
+        .redireccionando {
+            color: rgb(246, 237, 237);
+            box-shadow: 5px 4px 10px 5px #e60707;
+        }
+
+        .fa-rotate-right {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class='container'>
+        <p class='titulo'> ESTA CUENTA NO ESTA REGISTRADA</p>
+        <i class='fa-solid fa-triangle-exclamation'></i>
+        <br>
+        <p class='redireccionando'>ESTA SIENDO REDIRIGIDO HACIA LA PAGINA PRINCIPAL</p>
+        <i class='fa-solid fa-rotate-right'></i>
+        <!-- <script>
+            setTimeout(function() {
+            window.location.href = '/';
+            }, 3000);
+        </script> -->
+    </div>
+</body>
+
+</html>

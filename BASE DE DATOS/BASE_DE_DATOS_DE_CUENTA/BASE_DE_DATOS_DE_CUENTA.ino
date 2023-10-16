@@ -13,13 +13,6 @@ const char *password = "Jose Rizo";
 
 WebServer server(80);
 
-const int accountId1 = 12345;  // ID de cuenta existente
-const int accountId2 = 67890;  // ID de cuenta existente
-
-float accountBalance1 = 1000.0;  // Saldo de cuenta 1
-float accountBalance2 = 500.0;   // Saldo de cuenta 2
-
-
 // INSTANCIA PARA GUARDAR LOS DATOS EN LA NVS DE LA ESP32
 Preferences preferences;
 
@@ -138,11 +131,8 @@ struct cliente
 } cliente[10]; // MAXIMO DE 10 CLIENTES POR EL MOMENTO
 
 void handleRoot() {
-  String html = "<html><body><h1>Buscar Cuenta</h1>";
-  html += "<form action='/search' method='get'>";
-  html += "ID de Cuenta: <input type='text' name='accountId'><br>";
-  html += "<input type='submit' value='Buscar'>";
-  html += "</form></body></html>";
+String html = "<!DOCTYPE html><html lang='es'><head> <meta charset='UTF-8'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <script src='https://kit.fontawesome.com/892f23a568.js' crossorigin='anonymous'></script> <title>UNAN MANAGUA</title> <style>footer{position: absolute; bottom: 0; width: 100%; text-align: left;}P{color: white; font-size: 15px;}a[href='https://www.unan.edu.ni/']{color: green; text-decoration: none; font-weight: bold;}body{margin: 0; padding: 0; font-family: Arial,sans-serif; background: url('https://drive.google.com/uc?export=download&id=1GbTSma5EAXhdcbF0Ov5bR4W-d7ORn0Ok') no-repeat center center fixed; background-size: cover; height: 100vh; display:flex; align-items: center; justify-content: center;}.logo-unan{width: 80px; margin-right: 20px; /* Espacio entre el logo y el título */ margin-left: 10px;}.titulo-container{display: flex; align-items: center;}.titulo{color: red; letter-spacing: 2px; font-size: 15px; text-align: left;}.login-container{background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 20px; box-shadow: 15px 10px 10px rgba(0, 17, 2, 0.5); width: 400px; text-align: center; border-width: 2px; border-color: blue; border-style: solid;}.subtitulo{margin-bottom: 20px; text-transform: uppercase; letter-spacing: 3px; color: #007bff;}::placeholder{text-align: center;}.texto-ingreso{width: 90%; padding: 5px; margin-bottom: 10px; border: 1px solid rgb(0, 110, 255); border-radius: 10px;}.submit{background-color: #0e3edd; color: #fff; width: 90%; padding: 10px 20px; border: 1px solid rgb(0, 110,255); border-radius: 20px; cursor: pointer; border-radius: 10px;}.submit:hover{background-color: red;}p{position: absolute; align-items: flex-start;}.fa-graduation-cap{font-size: 25px; /* Tamaño del ícono más grande */ color: #1877f2; /* Color de Facebook */}@media (max-width: 480px){.login-container{width: 90%;}}</style></head><body><div class='login-container'> <div class='titulo-container'> <img class='logo-unan' src='https://drive.google.com/uc?export=download&id=1a-z0w7MEW6l5vyTJeBUVm7tb48KicoLA' alt='UNAN MANAGUA'> <h1 class='titulo'>MAQUINA EXPENDEDORA</h1> </div><h2 class='subtitulo'>CONSULTE SU SALDO</h2> <form action='/search' method='get'> <input type='text' name='accountId' placeholder='DIGITE ID DE USUARIO' required class='texto-ingreso'> <br><input type='submit' value='Consultar' class='submit'> </form> <i class='fa-solid fa-graduation-cap'></i></div><footer> <p>ING ELECTRONICA 2DO AÑO<a href='https://www.unan.edu.ni/' target='_blank' rel='noopener noreferrer'>UNAN MANAGUA</a></p></footer></body></html>";
+
   server.send(200, "text/html", html);
 }
 
@@ -151,12 +141,15 @@ void handleSearch() {
   int accountId = accountIdStr.toInt();
 
   String response;
-  for (int i=0; i<contador; i++){
+  for (int i = 0; i < contador; i++) {
     if (accountId == cliente[i].id) {
-      response = "Número de Cuenta: " + String(cliente[i].id) + "<br>Dinero: " + String(cliente[i].dinero);
+      response = "<html><head><style>body {font-size: 40px; color: red; }</style></head><body>";
+      response += "Cliente "+ String(i+1);
+      response += "<br><br>USUARIO: " + String(cliente[i].id) + "<br> Dinero: " + String(cliente[i].dinero);
+      response += "</body></html>";
       break;
     } else {
-      response = "La cuenta no existe.";
+      response = "<html> <head> <script src='https://kit.fontawesome.com/892f23a568.js' crossorigin='anonymous'></script> <style>.fa-triangle-exclamation{color: #ffff00; font-size: 200px;}.fa-rotate-right{color: white; font-size: 50px;}body{margin: 0; padding: 0; font-family: Arial,sans-serif; background: black no-repeat center center fixed; background-size: cover; height: 100vh; display:flex; align-items: center; justify-content: center;}.container{background-color: rgba(13, 13, 13, 0.8); padding: 20px; border-radius: 30px; box-shadow: 15px 10px 10px rgba(0, 17, 2, 0.5); width: 500px; text-align: center; border-width: 5px; border-color: red; border-style: solid;}.titulo{text-align: center; letter-spacing: 1px; color: white; margin: 10px 25px; box-shadow: 5px 5px 10px 5px #e60707;}.redireccionando{color: rgb(246, 237, 237); box-shadow: 5px 4px 10px 5px #e60707 ;}.fa-rotate-right{animation: spin 1s linear infinite;}@keyframes spin{0%{transform: rotate(0deg);}100%{transform: rotate(360deg);}}</style> </head> <body> <div class='container'> <p class='titulo'> ESTA CUENTA NO ESTA REGISTRADA</p><i class='fa-solid fa-triangle-exclamation'></i> <br><p class='redireccionando'>ESTA SIENDO REDIRIGIDO HACIA LA PAGINA PRINCIPAL</p><i class='fa-solid fa-rotate-right'></i> <script>setTimeout(function(){window.location.href='/';}, 2000); </script> </div></body></html>";
     }
   }
 
@@ -164,14 +157,11 @@ void handleSearch() {
 }
 
 
-
-
-
-
 void setup()
 {
   // INICIALIZA EL COMUNICADOR SERIAL A 115200 BAUDIOS
   Serial.begin(115200);
+
 
   // CARGA LOS DATOS ALMACENADOS DESDE NVS DEL ESP32
   preferences.begin("my-app", false);
