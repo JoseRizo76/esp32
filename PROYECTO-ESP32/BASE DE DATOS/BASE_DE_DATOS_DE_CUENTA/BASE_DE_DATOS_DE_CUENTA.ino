@@ -53,7 +53,7 @@ int Producto4 = 2;
 byte SelecProducto = 0;
 byte precio = 0; 
 int montoFinal = 0;
-byte cantidadProducto = 0;
+int cantidadProducto = 0;
 char cantchar [4];
 
 // VARIABLES DE CLIENTE
@@ -129,7 +129,7 @@ struct cliente
 } cliente[10]; // MAXIMO DE 10 CLIENTES POR EL MOMENTO
 
 void handleRoot() {
-String html = "<!DOCTYPE html><html lang='es'><head> <meta charset='UTF-8'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <script src='https://kit.fontawesome.com/892f23a568.js' crossorigin='anonymous'></script> <title>UNAN MANAGUA</title> <style>footer{position: absolute; bottom: 0; width: 100%; text-align: left;}p{color: white; font-size: 15px;}a[href='https://www.unan.edu.ni']{color: green; text-decoration: none; font-weight: bold;}body{margin: 0; padding: 0; font-family: Arial, sans-serif; background: url('https://drive.google.com/uc?export=download&id=1-OnPX-RrzTE9FEF-PIWnAeAr-MvfKGVk') no-repeat center center fixed; background-size: cover; height: 100vh; display: flex; align-items: center; justify-content: center;}.logo-unan{width: 220px; margin: 5px 5px 5px 5px; border-radius: 10px 0px 0px 0px;}.titulo-container{align-items: center;}.titulo{color: red; letter-spacing: 2px; font-size: 20px; text-align: center; text-transform: uppercase; position: flex; margin-top: 1px; font-weight: bold;}.login-container{background-color: #222222; padding: 10px; border-radius: 20px; box-shadow: 5px 5px 10px 10px rgba(120, 7, 7, 0.6); width: 350px; height: 400px; text-align: center; border-width: 1px; border-color: rgb(255, 0, 0); border-style: solid;}.subtitulo{margin-bottom: 20px; text-transform: uppercase; letter-spacing: 3px; color: #007bff; font-size: 17px;}::placeholder{text-align: center;}.texto-ingreso{width: 65%; padding: 6px; margin-bottom: 10px; margin-left: 3px; border: 1px solid red; border-radius: 10px; box-shadow: 3px 2px 3px 1px rgba(255, 4, 4, 0.7); background-color: #222222; color: white; text-align: center;}.texto-ingreso:focus{box-shadow: 5px 2px 5px 5px #044efa;}.submit{background-color: #171718; color: #fff; width: 65%; padding: 1px 1px; border: 1px solid rgb(255, 0, 13); border-radius: 10px; cursor: pointer; height: 30px; margin-bottom: 10px; margin-left: 3px; text-align: center;}.submit:hover{background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); border-color: white; box-shadow: 5px 2px 5px 5px rgba(255, 4, 4, 0.7);}p{position: absolute; align-items: flex-start;}.fa-cart-shopping{font-size: 25px; color: red; margin-top: 10px;}@media (max-width: 480px){.login-container{width: 80%;}}.fa-user{font-size: 20px; color:rgba(254, 6, 6, 0.751) ; justify-content: center; margin-right: 4px;}.fa-magnifying-glass-dollar{color: rgba(255, 2, 2, 0.794); font-size:20px; margin-right: 4px; margin-top: 5px; justify-content: center;}</style></head><body> <div class='login-container'> <div class='titulo-container'> <img class='logo-unan' src='https://drive.google.com/uc?export=download&id=1-o8Q9Ol7JsAEkVuM772RNePLjGVqEpxl' alt='UNAN MANAGUA'> <h1 class='titulo'>SNACK VENDING MACHINE</h1> </div><h2 class='subtitulo'>CONSULTE SU SALDO</h2> <form action='/search' method='get'> <i class='fa-solid fa-user'></i> <input type='text' name='accountId' placeholder='DIGITE ID DE USUARIO' required class='texto-ingreso'> <br><i class='fa-solid fa-magnifying-glass-dollar'></i> <input type='submit' value='Consultar' class='submit'> </form> <i class='fa-solid fa-cart-shopping'></i> </div><footer> <p>IE-G4 UNANMANAGUA <a href='https://www.unan.edu.ni/' target='_blank' rel='noopener noreferrer'>@UNAN MANAGUA</a></p></footer></body></html>";
+String html = "<!DOCTYPE html><html lang='es'><head> <meta charset='UTF-8'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <script src='https://kit.fontawesome.com/892f23a568.js' crossorigin='anonymous'></script> <title>UNAN MANAGUA</title> <style>footer{position: absolute; bottom: 0; width: 100%; text-align: left;}p{color: white; font-size: 15px;}a[href='https://www.unan.edu.ni']{color: green; text-decoration: none; font-weight: bold;}body{margin: 0; padding: 0; font-family: Arial, sans-serif; background: url('https://drive.google.com/uc?export=download&id=1-OnPX-RrzTE9FEF-PIWnAeAr-MvfKGVk') no-repeat center center fixed; background-size: cover; height: 100vh; display: flex; align-items: center; justify-content: center;}.logo-unan{width: 220px; margin: 5px 5px 5px 5px; border-radius: 10px 0px 0px 0px;}.titulo-container{align-items: center;}.titulo{color: red; letter-spacing: 2px; font-size: 20px; text-align: center; text-transform: uppercase; position: flex; margin-top: 1px; font-weight: bold;}.login-container{background-color: #222222; padding: 10px; border-radius: 20px; box-shadow: 5px 5px 10px 10px rgba(255, 1, 1, 0.285); width: 350px; height: 400px; text-align: center; border-width: 1px; border-color: rgba(255, 1, 1, 0.99); border-style: solid; animation: borderAnimation 0.5s infinite alternate;}@keyframes borderAnimation{0%{border-width: 1px;}100%{border-width: 4px;}}.subtitulo{margin-bottom: 20px; text-transform: uppercase; letter-spacing: 3px; color: #007bff; font-size: 17px;}::placeholder{text-align: center;}.texto-ingreso{width: 65%; padding: 6px; margin-bottom: 10px; margin-left: 3px; border: 1px solid red; border-radius: 10px; box-shadow: 6px 3px 6px 3px rgba(255, 4, 4, 0.7); background-color: #222222; color: white; text-align: center;}.texto-ingreso:focus{box-shadow: 5px 2px 5px 5px #044efa;}.submit{background-color: #171718; color: #fff; width: 65%; padding: 1px 1px; border: 1px solid rgb(255, 0, 13); border-radius: 10px; cursor: pointer; height: 30px; margin-bottom: 10px; margin-left: 3px; text-align: center;}.submit:hover{background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); border-color: white; box-shadow: 5px 2px 5px 5px rgba(255, 4, 4, 0.7);}p{position: absolute; align-items: flex-start;}.fa-cart-shopping{font-size: 25px; color: red; margin-top: 10px;}@media (max-width: 480px){.login-container{width: 80%;}}.fa-user{font-size: 20px; color:rgba(254, 6, 6, 0.751) ; justify-content: center; margin-right: 4px;}.fa-magnifying-glass-dollar{color: rgba(255, 2, 2, 0.794); font-size:20px; margin-right: 4px; margin-top: 5px; justify-content: center;}.fa-question{position: absolute; bottom: 0; right: 0; margin: 0; border-radius: 30px; text-align: center; color: #ff0000; font-size: 60px;}.modal{display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(26, 25, 25, 0.7); z-index: 999; /* Asegura que el modal esté en la parte superior */}.modal-contenido{position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 350px; height: 400px; background-color: #020202; padding: 30px; border: 3px solid rgba(8, 206, 255, 0.927); border-radius: 10px; box-shadow: 0 0 10px rgba(8, 206, 255, 0.927);}.modal-contenido h6{color: rgb(0, 255, 217); text-align: center; font-size: 20px; text-indent: 1px;}.cerrar-modal{position: absolute; top: 10px; right: 10px; font-size: 30px; cursor: pointer; color: red;}</style></head><body> <div class='login-container'> <div class='titulo-container'> <img class='logo-unan' src='https://drive.google.com/uc?export=download&id=1-o8Q9Ol7JsAEkVuM772RNePLjGVqEpxl' alt='UNAN MANAGUA'> <h1 class='titulo'>SNACK VENDING MACHINE</h1> </div><h2 class='subtitulo'>CONSULTE SU SALDO</h2> <form action='/search' method='get'> <i class='fa-solid fa-user'></i> <input type='text' name='accountId' placeholder='DIGITE ID DE USUARIO' required class='texto-ingreso'> <br><i class='fa-solid fa-magnifying-glass-dollar'></i> <input type='submit' value='Consultar' class='submit'> </form> <i class='fa-solid fa-cart-shopping'></i><br><i class='fa-solid fa-question' id='icono-ayuda'></i> </div><div id='modal-ayuda' class='modal'> <div class='modal-contenido'> <span class='cerrar-modal' id='cerrar-modal'>&times;</span> <h6>ESTE ES UN MENSAJE DE AYUDA<br><br>GRUPO 4 ING ELECTONICA</h6> </div></div><script>var iconoAyuda=document.getElementById('icono-ayuda'); var modalAyuda=document.getElementById('modal-ayuda'); var cerrarModal=document.getElementById('cerrar-modal'); iconoAyuda.addEventListener('click', function(){modalAyuda.style.display='block';}); cerrarModal.addEventListener('click', function(){modalAyuda.style.display='none';}); </script> <footer> <p>INGENIERA ELECTRONICA<a href='https://www.unan.edu.ni/' target='_blank' rel='noopener noreferrer'>@UNAN MANAGUA</a></p></footer></body></html>";
 
   server.send(200, "text/html", html);
 }
@@ -182,6 +182,11 @@ void setup()
   wifiMulti.addAP("POCO-F3", "Jose Rizo");
   wifiMulti.addAP("J4", "Jose Rizo");
   wifiMulti.addAP("WiFi-Estudiante", "UNANManagua*");
+  lcd.clear();
+  cr();
+  lcd.print("CONECTANDO WIFI");
+  cl();
+  lcd.print("ESPERE........");
 
   Serial.println("CONECTANDO A WIFI...");
   if(wifiMulti.run() == WL_CONNECTED) {
@@ -192,6 +197,13 @@ void setup()
       Serial.println("IP address: ");
       Serial.println(WiFi.localIP());
       Serial.println("Conexión WiFi exitosa");
+      lcd.clear();
+      cr();
+      lcd.print("CONECTADO A WIFI");
+      cl();
+      lcd.print(WiFi.SSID());
+      delay(1000);
+      lcd.clear();
   }
 
   // DECLARACION DE PINES DE SALIDA
@@ -210,18 +222,6 @@ void setup()
     lcd.print("REQUID ACCOUNT      ");
     delay(500);
   }
-   
-
-    //WiFi.begin(ssid, password);
-
-  //while (WiFi.status() != WL_CONNECTED) {
-   // delay(1000);
-  //  Serial.println("Conectando a la red WiFi...");
-  //}
-  
-
-  //Serial.print("Dirección IP: ");
-  //Serial.println(WiFi.localIP());
 
   server.on("/", HTTP_GET, handleRoot);
   server.on("/search", HTTP_GET, handleSearch);
@@ -354,7 +354,8 @@ void loop()
         band_default();
         lcd.clear();
         ;break;
-      default: lcd.print("ERROR DE OPCION"); delay(500); lcd.clear(); band7 = 'f';break;
+      case '1': band_default(); break;
+      default: lcd.clear(); lcd.print("ERROR DE OPCION"); delay(500); lcd.clear(); band7 = 'f';break;
       }
     }
   }
@@ -1087,9 +1088,6 @@ void retardo(){
     tiempo_anterior = segundos + 10;
     band6 = 'v';
   }
-}
-
-void verificarCliente(){
 }
 
 
