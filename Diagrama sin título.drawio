@@ -1,9 +1,47 @@
-<mxfile host="app.diagrams.net" modified="2023-10-24T20:50:07.111Z" agent="Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36" version="22.0.7" etag="NX2dTr4Utr5tSqwgLRXC" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-24T20:59:56.982Z" agent="Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36" etag="Yfs1FuW6T0rineoKQVxO" version="22.0.7" type="github">
   <diagram name="Página-1" id="9EZUr4mvAmmP4AGxjmPX">
-    <mxGraphModel>
+    <mxGraphModel dx="2108" dy="8156" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="ROAgueBNG2c1GGxxto9t-6" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="ROAgueBNG2c1GGxxto9t-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1074" y="-6774.35283897663" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ROAgueBNG2c1GGxxto9t-4" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;START&lt;/font&gt;&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-1143" y="-6874" width="138" height="63" as="geometry" />
+        </mxCell>
+        <mxCell id="ROAgueBNG2c1GGxxto9t-9" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="ROAgueBNG2c1GGxxto9t-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1074" y="-6672.903064596242" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ROAgueBNG2c1GGxxto9t-5" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;DECLARACIÓN DE LIBRERÍA&amp;nbsp;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-1194" y="-6769" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ROAgueBNG2c1GGxxto9t-16" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="ROAgueBNG2c1GGxxto9t-7">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1074" y="-6570.16384379069" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ROAgueBNG2c1GGxxto9t-7" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;CONFIGURACIÓN DE E/S PINES&lt;/font&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-1204.5" y="-6667" width="261" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ROAgueBNG2c1GGxxto9t-15" value="" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="ROAgueBNG2c1GGxxto9t-13">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1046.5" y="-6530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ROAgueBNG2c1GGxxto9t-19" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="ROAgueBNG2c1GGxxto9t-13" target="ROAgueBNG2c1GGxxto9t-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ROAgueBNG2c1GGxxto9t-13" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;SI NO HAY &lt;br&gt;NINGUNA CUENTA REGISTRADA&amp;nbsp;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;" style="rhombus;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-1184" y="-6568" width="220" height="136" as="geometry" />
+        </mxCell>
+        <mxCell id="ROAgueBNG2c1GGxxto9t-18" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;MENU PRINCIPAL&amp;nbsp;&lt;/font&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-1168.5" y="-6393" width="189" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
