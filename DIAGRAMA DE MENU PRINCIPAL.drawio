@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-10-25T05:31:34.817Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36" etag="T8kJBSQkEG2Z2ewp1_be" version="22.0.7" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2023-10-25T05:36:57.532Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36" etag="jUKtAkpLCPzxnggdg8Bg" version="22.0.7" type="github" pages="4">
   <diagram name="Página-1" id="APF19slgnpA10nlGvX2n">
-    <mxGraphModel dx="1299" dy="676" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="896" dy="466" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -100,11 +100,11 @@
         <mxCell id="tMg9E9OkUHhhojzwBcNq-23" value="VOLVERA AL MENU PRINCIPAL" style="whiteSpace=wrap;html=1;fontStyle=1;strokeWidth=2;shadow=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="148.5" y="647" width="135" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="tMg9E9OkUHhhojzwBcNq-25" value="&lt;b&gt;NO ES CORRECTA&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="217" y="585" width="126" height="26" as="geometry" />
+        <mxCell id="tMg9E9OkUHhhojzwBcNq-25" value="&lt;b&gt;NO&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="262" y="585" width="36" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="tMg9E9OkUHhhojzwBcNq-26" value="SI ES CORRECTA" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="314" y="487" width="119" height="26" as="geometry" />
+        <mxCell id="tMg9E9OkUHhhojzwBcNq-26" value="SI" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="359" y="487" width="29" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
@@ -360,7 +360,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="yKFiF0SWzqlzn9YgyjLj" name="Página-4">
-    <mxGraphModel dx="1039" dy="541" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2362" dy="1229" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -492,15 +492,6 @@
         </mxCell>
         <mxCell id="DnxZos1rtqWWsSKiKprq-1" value="" style="swimlane;startSize=0;" vertex="1" parent="1">
           <mxGeometry x="5.25" y="13" width="804.75" height="1128" as="geometry" />
-        </mxCell>
-        <mxCell id="DnxZos1rtqWWsSKiKprq-2" value="Selección&amp;nbsp; de &lt;br&gt;producto y cantidad&lt;br&gt;&amp;nbsp;de producto" style="whiteSpace=wrap;html=1;fontColor=#000000;fontStyle=1;strokeWidth=2;shadow=1;" vertex="1" parent="DnxZos1rtqWWsSKiKprq-1">
-          <mxGeometry x="265.75" y="283.24" width="86" height="80.5" as="geometry" />
-        </mxCell>
-        <mxCell id="DnxZos1rtqWWsSKiKprq-3" value="Menú Principal" style="whiteSpace=wrap;html=1;fontColor=#000000;fontStyle=1;strokeWidth=2;shadow=1;" vertex="1" parent="DnxZos1rtqWWsSKiKprq-1">
-          <mxGeometry x="400.25" y="413.5" width="120" height="42.01" as="geometry" />
-        </mxCell>
-        <mxCell id="DnxZos1rtqWWsSKiKprq-4" value="&lt;b&gt;NO&lt;br&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="DnxZos1rtqWWsSKiKprq-1">
-          <mxGeometry x="460.75" y="375" width="36" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
