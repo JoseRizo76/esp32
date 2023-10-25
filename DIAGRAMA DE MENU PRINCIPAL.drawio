@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-10-25T04:20:48.734Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36" etag="NZA3Be9ycMYKiYypgfsw" version="22.0.7" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2023-10-25T04:59:13.302Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36" etag="NERiLGRlnhAZTeQu5Hio" version="22.0.7" type="github" pages="4">
   <diagram name="Página-1" id="APF19slgnpA10nlGvX2n">
     <mxGraphModel dx="1299" dy="676" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -110,7 +110,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="T8KoNWABM0PVfcYy2Pde" name="Página-2">
-    <mxGraphModel dx="1856" dy="966" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="742" dy="386" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -254,6 +254,115 @@
         </mxCell>
         <mxCell id="3du2_zEQxWvmOnbrJqdN-25" value="&lt;b&gt;SI&lt;br&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="249.5" y="922" width="29" height="26" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="S-Bk1MzVxyzMydlBo55L" name="Página-3">
+    <mxGraphModel dx="1083" dy="563" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="RsX6XOw2Q_Ay7aeV0p9U-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PbqSbnh_YBmSwbT2yjgQ-1" target="RsX6XOw2Q_Ay7aeV0p9U-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RsX6XOw2Q_Ay7aeV0p9U-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PbqSbnh_YBmSwbT2yjgQ-1" target="RsX6XOw2Q_Ay7aeV0p9U-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PbqSbnh_YBmSwbT2yjgQ-1" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;MENÚ RETIRO DE PRODUCTO&lt;/font&gt;&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;strokeWidth=2;shadow=1;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="22.75" y="77" width="205" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="RsX6XOw2Q_Ay7aeV0p9U-1" value="&lt;h1&gt;MENÚ RETIRO DE PRODUCTO&lt;/h1&gt;&lt;p&gt;&lt;/p&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Este Menú cuenta requiere el ingreso de una cuenta existente,&lt;/span&gt;&lt;/div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;tiene 3 maneras para ingresar a la cuenta y retirar un producto.&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;1. ID y Contraseña de la cuenta&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;2. Tarjerta RFID ( En caso de que registro la tarjeta RFID al momento de crear&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;la cuenta )&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;3. NFC&amp;nbsp; ( SI su telefono es compatible con esta funcion y si lo registro al&lt;/span&gt;&lt;/div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; momento de crear la cuenta )&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;p&gt;&lt;/p&gt;" style="text;html=1;strokeColor=default;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=1;verticalAlign=bottom;align=center;fontStyle=0;shadow=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="303.75" y="33" width="436.25" height="168" as="geometry" />
+        </mxCell>
+        <mxCell id="RsX6XOw2Q_Ay7aeV0p9U-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RsX6XOw2Q_Ay7aeV0p9U-5" target="RsX6XOw2Q_Ay7aeV0p9U-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RsX6XOw2Q_Ay7aeV0p9U-5" value="Ingreso por:&lt;br&gt;ID y Contraseña ,&lt;br&gt;Tarjeta RFID o NFC" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fontStyle=1;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="21" y="289" width="208.5" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="RsX6XOw2Q_Ay7aeV0p9U-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RsX6XOw2Q_Ay7aeV0p9U-9" target="RsX6XOw2Q_Ay7aeV0p9U-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RsX6XOw2Q_Ay7aeV0p9U-9" value="Selección&amp;nbsp; de &lt;br&gt;producto y cantidad&lt;br&gt;&amp;nbsp;de producto" style="whiteSpace=wrap;html=1;fontColor=#000000;fontStyle=1;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="272" y="306.5" width="135" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="RsX6XOw2Q_Ay7aeV0p9U-13" target="fpdJwW7an66zHZ6JzAMM-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="RsX6XOw2Q_Ay7aeV0p9U-13" target="fpdJwW7an66zHZ6JzAMM-14">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="257" y="567" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="771" y="338" />
+              <mxPoint x="771" y="567" />
+              <mxPoint x="259" y="567" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsX6XOw2Q_Ay7aeV0p9U-13" value="Tiene suficiente&lt;br&gt;&amp;nbsp;DInero" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fontStyle=1;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="578" y="289.74" width="139" height="93.5" as="geometry" />
+        </mxCell>
+        <mxCell id="RsX6XOw2Q_Ay7aeV0p9U-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="RsX6XOw2Q_Ay7aeV0p9U-15" target="RsX6XOw2Q_Ay7aeV0p9U-13">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560.6757134331597" y="336.495" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="RsX6XOw2Q_Ay7aeV0p9U-15" target="fpdJwW7an66zHZ6JzAMM-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RsX6XOw2Q_Ay7aeV0p9U-15" value="Tiene &lt;br&gt;suficiente producto" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fontStyle=1;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="431" y="290.87" width="110" height="91.25" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-1" value="&lt;b&gt;SI&lt;br&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="229.5" y="311" width="29" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-2" value="&lt;b&gt;SI&lt;br&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="541" y="311" width="29" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-3" value="&lt;b&gt;SI&lt;br&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="719" y="311" width="29" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-4" value="&lt;b&gt;NO&lt;br&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="646" y="387" width="36" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-5" value="&lt;b&gt;NO&lt;br&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="482" y="384" width="36" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-6" value="&lt;b&gt;NO&lt;br&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="133" y="387" width="36" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-7" value="Menú Principal" style="whiteSpace=wrap;html=1;fontColor=#000000;fontStyle=1;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="426" y="423" width="120" height="42.01" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-9" value="Menú Principal" style="whiteSpace=wrap;html=1;fontColor=#000000;fontStyle=1;strokeWidth=2;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="587.5" y="426.5" width="120" height="42.01" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="fpdJwW7an66zHZ6JzAMM-14" target="fpdJwW7an66zHZ6JzAMM-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-14" value="Resta el total, a su saldo actual" style="whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;shadow=1;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="199.25" y="594" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="fpdJwW7an66zHZ6JzAMM-16" target="fpdJwW7an66zHZ6JzAMM-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-16" value="Resta la cantidad de produco que se retiro de la maquina" style="whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;shadow=1;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="140" y="693" width="239" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fpdJwW7an66zHZ6JzAMM-18" value="Menú Principal" style="whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;shadow=1;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="199.25" y="790" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="yKFiF0SWzqlzn9YgyjLj" name="Página-4">
+    <mxGraphModel dx="742" dy="386" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fRgjl8YxCdZIQjCwaB6m-1" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;MENÚ CREAR NUEVA CUENTA&lt;/font&gt;&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;strokeWidth=2;shadow=1;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="22.75" y="77" width="205" height="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
